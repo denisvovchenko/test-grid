@@ -1,0 +1,168 @@
+.photo {
+  width: 100%;
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.photo__list {
+  position: relative;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+.photo__item {
+  // 1px: gap;
+  width: calc(50% - 1px);
+
+  &--main {
+    width: 100%;
+    margin-right: auto;
+
+    @media #{$max-tab} {
+      margin-bottom: $mob-gap;
+    }
+
+    @media #{$min-tab} {
+      // 1.5: main-photo is filling 2/3 columns
+      width: calc(100% / 1.5);
+    }
+
+    @media #{$min-dsk} {
+      width: 60%;
+    }
+  }
+
+  &:nth-child(2) {
+    @media #{$min-tab} {
+      // 4px: gap
+      width: calc( (100% / 3) - 4px );
+      height: auto;
+    }
+
+    @media #{$min-dsk} {
+      // 8px: gap
+      width: calc(40% - 8px);
+    }
+  }
+
+  &:nth-child(3) {
+    position: absolute;
+    bottom: 0;
+    // 1) (20%-4px): right column; 4px: gap inside;
+    right: calc( (20% - 4px) + 4px);
+
+    // the same
+    width: calc( (20% - 4px) - 4px);
+
+    @media #{$max-dsk} {
+      display: none;
+    }
+  }
+
+  &:nth-child(4) {
+    @media #{$min-tab} {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+
+      // 4px: gap inside;
+      width: calc( (100% / 3) - 4px );
+    }
+
+    @media #{$min-dsk} {
+      // 1) (20%-4px): right column; 4px: gap inside;
+      width: calc( (20% - 4px) - 4px );
+    }
+  }
+}
+
+.photo__link {
+  position: relative;
+
+  display: block;
+  height: 0;
+  padding-top: 50%;
+}
+
+.photo__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@supports (display: grid) {
+  .photo__list {
+    display: grid;
+    grid-template-rows: 2fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "photo1 photo1"
+      "photo2 photo4";
+    grid-gap: $mob-gap;
+
+    @media #{$min-tab} {
+      grid-template-rows: 1fr 1fr;
+      grid-template-columns: 2fr 1fr;
+      grid-template-areas:
+        "photo1 photo2"
+        "photo1 photo4";
+      grid-gap: $tab-gap;
+    }
+
+    @media #{$min-dsk} {
+      grid-template-rows: 2fr 1fr;
+      grid-template-columns: 60% 1fr 1fr;
+      grid-template-areas:
+        "photo1 photo2 photo2"
+        "photo1 photo3 photo4";
+      grid-gap: $dsk-gap;
+    }
+  }
+
+  .photo__item {
+    &--main {
+      grid-area: photo1;
+
+      width: auto;
+      margin: 0;
+    }
+
+    &:nth-child(2) {
+      grid-area: photo2;
+
+      width: auto;
+    }
+
+    &:nth-child(3) {
+      grid-area: photo3;
+
+      @media #{$min-dsk} {
+        position: static;
+
+        width: auto;
+      }
+    }
+
+    &:nth-child(4) {
+      position: static;
+
+      grid-area: photo4;
+
+      width: auto;
+    }
+  }
+
+  .photo__link {
+    @media #{$min-tab} and #{$max-dsk} {
+      padding-top: calc(50% - 4px);
+    }
+  }
+}
